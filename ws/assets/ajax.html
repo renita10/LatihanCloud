@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+	<meta charset="utf-8">
+	<script type="jquery.min.js"></script>
+<head>
+	<title>Buku</title>
+</head>
+<body>
+	<table id="myTabel">
+		<thead>
+			<tr>
+				<th>No</th>
+				<th>Kode</th>
+				<th>Judul</th>
+				<th>Th. Terbit</th>
+			</tr>
+
+		</thead>
+	</table>
+	<script>
+		$.ajax({
+			url:"http://username:password@localhost/ws/index.php/buku/all/format/xml",
+			dataType: "text",
+			method: "GET",
+			success: function(data){
+				var xmlDoc = $.parseXML(data);
+				var data_buku = $(xmlDoc);
+				var no = 1;
+				data_buku.find("item").each(function(){
+					var kode = $(this).find('KODE_BUKU').text();
+					var judul = $(this).find('JUDUL_BUKU').text();
+					var tahun = $(this).find('TAHUN_BUKU').text();
+					$("#myTabel > tbody").append(
+							"<tr>"+
+								"<td>"+(no++)+"</td>"+
+								"<td>"+kode+"</td>"+
+								"<td>"+judul+"</td>"+
+								"<td>"+tahun+"</td>"+
+							"</tr>"
+						);
+				});
+			}
+
+		});
+
+	</script>
+</body>
+</html>
